@@ -1,0 +1,23 @@
+{
+  "name": "playwright-ai-shopping-cart-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vaishnavi12022000/playwright-ai-shopping-cart-framework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Vaishnavi12022000/playwright-ai-shopping-cart-framework/issues"
+  },
+  "homepage": "https://github.com/Vaishnavi12022000/playwright-ai-shopping-cart-framework#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.0.1"
+  }
+}
