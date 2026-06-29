@@ -1,0 +1,8 @@
+{
+    "targetPrices":[
+        "$10.90",
+        "$14.90"
+    ],
+    "baseUrl":"https://react-shopping-cart-67954.firebaseapp.com/products%27%27",
+    "expectedProductCount":16
+}
