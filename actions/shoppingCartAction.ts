@@ -30,7 +30,6 @@ export class ShoppingCartAction {
                 });
             }
         }
-        console.log(selectedProducts);
         return selectedProducts;
     }
 

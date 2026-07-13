@@ -184,10 +184,18 @@ These documents provide traceability from application analysis through framework
 
 ## Utilities Layer (`utils/`)
 
-The `utils` folder is currently part of the project structure and reserved for reusable utility components as the framework evolves.
+The `utils` folder contains reusable helper classes that improve code reusability and maintainability across the automation framework.
 
-At the current stage of implementation, no utility methods have been added.
+### Current Utilities
 
+- ** priceUtils.ts**
+ -Performs reusable price calculations and validation support.
+ -Elimination duplicate pricing logic across tests scripts
+- ** logger.ts**
+ -Provides centralized logging methods such as Info, Success, and Error messages.
+ -Improves execution readability and debugging.
+
+  These reusable utilities keep business logic centralized and reduce duplication throughout the framework.
 ---
 
 ## Configuration (`playwright.config.ts`)
@@ -199,8 +207,10 @@ Framework configuration is centralized in the Playwright configuration file.
 * Centralized Playwright settings.
 * Browser execution configuration.
 * Common framework configuration.
+* Environment-based configuration using external configuration files 
+* Base URL management for different environments.
 
-Maintaining configuration in a single location improves consistency and simplifies framework maintenance.
+The framework currently supports multiple environments through external configuration files(for example, Development and QA), allowing environment changes without modifying the automation scripts
 
 ---
 
@@ -269,17 +279,32 @@ These principles improve long-term maintainability and simplify future enhanceme
 
 # 8. AI Usage
 
-Artificial Intelligence was used as a productivity and documentation assistant throughout the assignment.
+Artificial Intelligence was used as an engineering acclerator throughout the assignment while ensuring the final implmentation was reviewed and aligned with the project requirements
 
 AI-assisted activities included:
 
 * Application analysis.
 * Test plan preparation.
 * Test case generation.
-* AI assisted framework design and implementation guidance.
-* Framework guidance.
+* Enterprise framework design guidance
+* Playwright automation guidance
+* AI-assisted generation of happy-path Playwright test scripts using the existing framework
+* AI-assisted failure analysis and test healing for failed automation scenarios
+* Framework documentation support
 
-All framework implementation, automation logic, validations, and final deliverables were reviewed and aligned with the project requirements.
+### Playwright MCP & AI Usage 
+ The framework demonstrates the use of AI during different stages of of automation:
+
+ -**Generator**
+  -Generated Playwright happy-path test scripts from the completed Tested cases.
+  -Reuse the existing Page objects ,Action classes, test data , utilities , and configuration without creating duplicate components.
+
+- **Healer**
+ - Analyzed failed Playwright test executions.
+ - Identified root causes of failures
+ - Suggested fixes while preserving the existing enterprise framework architecture.
+
+AI was used to improve productivity and accelerate automation development , while all generated outputs were reviewed and validated before being incorporated into the framework.
 
 ---
 
@@ -299,16 +324,28 @@ The implemented architecture provides several advantages:
 
 ---
 
-# 10. Future Enhancements
+# 10.CI/CD Integration
+The framework is integrated with Github Actions to enable automated execution.
 
-The following enhancements are identified as future improvements and are **not part of the current implementation**:
+The pipeline performs the following activities:
 
-* Implement reusable utility methods within the `utils` layer.
-* Integrate custom reporting for enhanced execution insights.
-* Configure Continuous Integration and Continuous Deployment (CI/CD) pipelines for automated test execution.
-* Add support for multiple execution environments.
-* Explore integration with Playwright MCP capabilities.
-* Evaluate AI agent integration to assist with future automation workflows and framework enhancements.
-* Integrate GitHub Actions for automated build,execution, and report publishing.
+- checks the latest source code
+- Installs Node.js dependencies
+- Installs Playwright browsers
+- Executes the Playwright test suite
+- Generates the Playwright HTML reports
+- Uploads the execution report as a Github Action artifact for latest review.
 
-These enhancements can further improve the scalability, maintainability, and automation capabilities of the framework as the project evolves.
+This integration enables automated executionand supports continuos testing practices.
+
+
+# 11. Future Enhancements
+
+The following enhancements can be implemented in future versions of the framework:
+
+* Integrate GitHub Actions or Azure DevOps CI/CD pipeline for automated execution.
+* Publish Playwright HTML reports as CI/CD artifacts .
+* Add cross-browser execution (Firefox, Webkit, Edge).
+* Extend automation coverage for negative, boundray , exploratory , and end-to-end scenarios.
+* Integrate advanced Playwright MCP capabilities for autonomous test generation and maintainenece .
+* Support parallel execution across multiple environments and browsers.
