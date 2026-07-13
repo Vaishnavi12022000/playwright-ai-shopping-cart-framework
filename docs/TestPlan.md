@@ -84,7 +84,7 @@ Validate the full shopping journey from landing on the catalog to cart review an
 ### Regression Testing
 Validate that recent changes to UI, logic, or automation do not break previously working workflows.
 
-## 6. Feature-wise High-Level Test Scenarios
+## 6.Test Scenarios
 
 ### Product Browsing
 
@@ -572,6 +572,96 @@ Validate that recent changes to UI, logic, or automation do not break previously
 
    - expect: The application remains responsive under the stress scenario.
 
+#### 26. Cart State Persistence After Refresh
+
+**File:** tests/edge-cases/cart-state-persistence-after-refresh.spec.ts
+
+**Steps:**
+
+1. Add a product to the cart and note the displayed quantity and price.
+
+   - expect: The cart shows the selected item and the expected subtotal.
+
+2. Refresh the browser page.
+
+   - expect: The application reloads without crashing and the cart state is handled consistently according to the current behavior.
+
+3. Return to the cart view and review the summary.
+
+   - expect: The cart remains understandable and the state is consistent with the last action.
+
+#### 27. Checkout Availability Based on Cart State
+
+**File:** tests/checkout/checkout-availability-based-on-cart-state.spec.ts
+
+**Steps:**
+
+1. Open the cart when it is empty.
+
+   - expect: The checkout entry is not misleading and the user is shown the appropriate empty-cart state.
+
+2. Add a product to the cart and attempt checkout again.
+
+   - expect: The checkout action becomes available or transitions correctly for a valid cart.
+
+3. Review the resulting checkout state.
+
+   - expect: The action is handled safely and the user sees the expected next step or feedback.
+
+#### 28. Multiple Filter Combination Behavior
+
+**File:** tests/product-filtering/multiple-filter-combination-behavior.spec.ts
+
+**Steps:**
+
+1. Open the catalog and apply one filter option.
+
+   - expect: The catalog updates to show the matching product set.
+
+2. Apply a second filter option in combination with the first.
+
+   - expect: The product list narrows further or shows a no-results state if no combination matches.
+
+3. Clear the filter selection and confirm the catalog returns.
+
+   - expect: The full catalog is restored and remains usable.
+
+#### 29. Remove All Items and Verify Empty State
+
+**File:** tests/shopping-cart/remove-all-items-and-verify-empty-state.spec.ts
+
+**Steps:**
+
+1. Add multiple products to the cart.
+
+   - expect: The cart contains more than one item and the summary reflects the products.
+
+2. Remove each item until the cart is empty.
+
+   - expect: The cart updates after each removal and no stale items remain.
+
+3. Review the final cart state.
+
+   - expect: The empty-cart state is clear and the user can continue shopping.
+
+#### 30. Duplicate Product Re-Addition Behavior
+
+**File:** tests/add-to-cart/duplicate-product-re-addition-behavior.spec.ts
+
+**Steps:**
+
+1. Select a product that can be added more than once.
+
+   - expect: The product is available for cart addition.
+
+2. Add the same product repeatedly.
+
+   - expect: The cart reflects the repeated additions consistently and the quantity or item count changes as expected.
+
+3. Review the cart summary after repeated additions.
+
+   - expect: The totals remain accurate and the user can continue interacting with the cart without errors.
+
 ## 7. Test Priorities
 ### P0 - Critical
 - Product listing and selection
@@ -720,5 +810,3 @@ Automation will focus on the most business-critical, repeatable, and high-risk f
 
 ## 16. Summary
 This enterprise QA plan provides a structured approach for verifying the React Shopping Cart Demo with a focus on business-critical user journeys, reliability, and maintainability. It supports manual testing, automation, regression, and future AI-assisted test generation in a consistent and scalable manner.
-
-## Test Scenarios

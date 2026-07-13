@@ -1,132 +1,131 @@
-# Test Cases - React Shopping Cart Demo
+# Test Cases
 
-## Document Information
+## Application Overview
 
-| Item            | Value                                |
-| --------------- | -------------------------------------|
-| Project         | React Shopping Cart Demo             |
-| Document        | Test Cases                           |
-| Automation Tool | Playwright                           |
-| Language        | TypeScript                           |
-| Test Level      | System/Functional / E2E / Regression |
-| Version         | 1.0                                  |
+Concise happy-path test cases for the React shopping cart demo, derived from the approved test plan.
 
----
+## Test Scenarios
 
-## Functional Test Cases
+### 1. Happy Path Test Cases
 
-| Test Case ID | Module          | Test Scenario                                   | Preconditions             | Test Steps                                              | Test Data                | Expected Result                                              | Priority |
-| ------------ | --------------- | ----------------------------------------------- | ------------------------- | ------------------------------------------------------- | ------------------------ | ------------------------------------------------------------ | -------- |
-| TC-F-001     | Product Listing | Verify product catalog is displayed             | Application is launched   | 1. Open application<br>2. Observe product listing       | Default catalog          | Product cards display image, name, price,available sizes,and correct pricing format($xx.xx) | P0       |
-| TC-F-002     | Product Listing | Verify all products display correct information | Application is launched   | Compare displayed name and price with product data      | Product catalog          | Product name, image and price match expected data            | P0       |
-| TC-F-003     | Product Filter  | Verify size filter functionality                | Product catalog loaded    | 1. Select a size filter<br>2. Observe filtered products | Size = M                 | Only products matching selected size are displayed and product count updates correctly| P0       |
-| TC-F-004     | Product Filter  | Verify changing size filters updates results    | Product catalog loaded    | Switch between multiple size filters                    | XS, S, M, L, XL          | Product list refreshes correctly for each selected size      | P1       |
-| TC-F-005     | Cart            | Verify adding a product to cart                 | Product available         | Click Add to Cart                                       | Single product           | Product is added with quantity = 1                           | P0       |
-| TC-F-006     | Cart            | Verify adding multiple different products       | Product catalog loaded    | Add different products                                  | Multiple products        | All products appear separately in cart                       | P0       |
-| TC-F-007     | Cart            | Verify adding same product multiple times       | Product available         | Click Add to Cart repeatedly                            | Same product             | Quantity increases without duplicate inconsistent entries    | P0       |
-| TC-F-008     | Cart            | Verify product name in cart                     | Product added             | Open cart                                               | Product                  | Cart displays correct product name                           | P0       |
-| TC-F-009     | Cart            | Verify product price in cart                    | Product added             | Open cart                                               | Product                  | Cart displays correct product price                          | P0       |
-| TC-F-010     | Quantity        | Verify increasing quantity                      | Product exists in cart    | Click increase button                                   | Quantity = 1             | Quantity increments and subtotal updates immediately without UI delay| P0       |
-| TC-F-011     | Quantity        | Verify decreasing quantity                      | Quantity greater than 1   | Click decrease button                                   | Quantity = 2             | Quantity decreases correctly without UI delay                  | P0       |
-| TC-F-012     | Quantity        | Verify total quantity calculation               | Multiple items added      | Observe total quantity                                  | Multiple products        | Total quantity equals sum of all item quantities             | P0       |
-| TC-F-013     | Pricing         | Verify item subtotal calculation                | Product in cart           | Update quantity                                         | Product price × quantity | Item subtotal is calculated correctly and displayed in consistent currency format($xx.xx)| P0       |
-| TC-F-014     | Pricing         | Verify cart grand total calculation             | Multiple products added   | Observe total                                           | Multiple products        | Grand total equals sum of all subtotals with correct currency formatting | P0       |
-| TC-F-015     | Cart            | Verify removing a single item                   | Product exists in cart    | Remove product                                          | Cart item                | Selected item is removed                                     | P0       |
-| TC-F-016     | Cart            | Verify clearing cart                            | Multiple products in cart | Remove all items                                        | Cart items               | Cart becomes empty                                           | P1       |
-| TC-F-017     | Cart Summary    | Verify cart summary values                      | Products in cart          | Observe summary                                         | Multiple products        | Quantity, subtotal and total are accurate                    | P0       |
-| TC-F-018     | Navigation      | Verify continue shopping after cart update      | Product added             | Navigate back to product list                           | Product                  | Cart contents remain unchanged                               | P1       |
-| TC-F-019     | Checkout        | Verify Checkout button availability             | Cart contains products    | Open cart                                               | Valid cart               | Checkout button is visible and enabled                       | P0       |
-| TC-F-020     | Checkout        | Verify checkout initiation                      | Cart contains products    | Click Checkout                                          | Valid cart               | Checkout flow is initiated successfully                      | P0       |
+**Seed:** `tests/seed.spec.ts`
 
----
+#### 1.1. TC-01 - Catalog Landing Page Visibility
 
-## Negative Test Cases
+**File:** `tests/happy-path/tc-01-catalog-landing-page-visibility.spec.ts`
 
-| Test Case ID | Module          | Test Scenario                   | Preconditions         | Test Steps             | Test Data       | Expected Result                                | Priority |
-| ------------ | --------------- | ------------------------------- | --------------------- | ---------------------- | --------------- | ---------------------------------------------- | -------- |
-| TC-N-001     | Cart            | Add product during cart failure | Simulated API/cart update failure using network interception     | Attempt Add to Cart    | Product         | Graceful error shown without application crash | P1       |
-| TC-N-002     | Cart            | Remove already removed item     | Item already removed  | Attempt removal again  | Removed product | Application remains stable                     | P1       |
-| TC-N-003     | Quantity        | Enter zero quantity             | Quantity editable     | Enter 0                | 0               | System rejects invalid quantity and retains previous valid value| P0       |
-| TC-N-004     | Quantity        | Enter negative quantity         | Quantity editable     | Enter -1               | -1              | System rejects invalid quantity and retains previous valid value| P0       |
-| TC-N-005     | Quantity        | Enter invalid characters        | Quantity editable     | Enter alphabetic value | abc             | Invalid input rejected                         | P1       |
-| TC-N-006     | Checkout        | Checkout with empty cart        | Empty cart            | Click Checkout         | Empty cart      | Checkout is blocked appropriately              | P0       |
-| TC-N-007     | Cart            | Rapid Add to Cart clicks        | Product available     | Click Add repeatedly   | Same product    | Cart remains consistent without corruption     | P1       |
-| TC-N-008     | Network         | Refresh during cart update      | Product being updated | Refresh browser        | Active cart     | Cart state handled safely                      | P1       |
-| TC-N-009     | Network         | Simulate network interruption   | Network interrupted   | Perform cart action    | Product         | Error displayed and application remains usable | P1       |
-| TC-N-010     | Product Listing | Missing product information     | Invalid product data  | Load catalog           | Missing fields  | UI degrades gracefully without breaking layout | P2       |
+**Steps:**
+  1. Preconditions: The application is accessible and the browser is opened to the product catalog URL.
+    - expect: Test Data: Default catalog view with no filters applied.
+    - expect: Expected Result: The catalog landing page displays successfully with visible product cards and no error state.
+    - expect: Priority: High
 
----
+#### 1.2. TC-02 - Product Information Visibility
 
-## Boundary Test Cases
+**File:** `tests/happy-path/tc-02-product-information-visibility.spec.ts`
 
-| Test Case ID | Module          | Test Scenario                              | Preconditions                    | Test Steps                      | Test Data                  | Expected Result                          | Priority |
-| ------------ | --------------- | ------------------------------------------ | -------------------------------- | ------------------------------- | -------------------------- | ---------------------------------------- | -------- |
-| TC-B-001     | Cart            | Verify empty cart state                    | No items in cart                 | Open cart                       | Empty cart                 | Empty-cart message displayed             | P0       |
-| TC-B-002     | Cart            | Verify single item cart                    | One product added                | Open cart                       | One item                   | Correct subtotal and quantity displayed  | P0       |
-| TC-B-003     | Quantity        | Verify large quantity handling             | Product added                    | Increase quantity repeatedly    | Large quantity             | System handles large quantity without UI overflow and maintains correct total calculation| P2       |
-| TC-B-004     | Product Listing | Verify long product names                  | Long-name product exists         | View catalog                    | Long product name          | Layout remains intact                    | P2       |
-| TC-B-005     | Quantity        | Verify zero quantity restriction           | Product added                    | Attempt quantity = 0            | 0                          | System prevents invalid quantity         | P0       |
-| TC-B-006     | Quantity        | Verify maximum quantity limit              | Product added                    | Increase beyond limit           | Maximum supported quantity | System enforces max quantity limit and prevent cart corruption| P1       |
-| TC-B-007     | Product Filter  | Verify filter with no matching products    | Products loaded                  | Select unavailable size         | Unsupported filter         | "No products found" message displayed    | P1       |
-| TC-B-008     | Navigation      | Verify browser back and forward navigation | Product added                    | Navigate using browser controls | Browser navigation         | Cart state remains consistent            | P1       |
-| TC-B-009     | Session         | Verify multiple browser tabs               | Cart contains items              | Open another tab                | Existing cart              | Cart behavior remains predictable        | P2       |
-| TC-B-010     | Product Listing | Verify special characters display          | Special character data available | View product                    | Special characters         | Text renders correctly without UI issues | P2       |
+**Steps:**
+  1. Preconditions: The catalog page is open and products are loaded.
+    - expect: Test Data: Any visible product from the default catalog.
+    - expect: Expected Result: Product name, price, and visual product reference are clearly visible.
+    - expect: Priority: High
 
----
+#### 1.3. TC-03 - Size Filter Application
 
-## Exploratory Test Cases
+**File:** `tests/happy-path/tc-03-size-filter-application.spec.ts`
 
-| Test Case ID | Module          | Test Scenario                              | Preconditions          | Test Steps                        | Test Data          | Expected Result                    | Priority |
-| ------------ | --------------- | ------------------------------------------ | ---------------------- | --------------------------------- | ------------------ | ---------------------------------- | -------- |
-| TC-E-001     | Product Listing | Explore rapid filtering                    | Catalog loaded         | Change filters rapidly            | Multiple sizes     | No UI flickering, layout break,or state incosistency observed during rapid filtering| P2       |
-| TC-E-002     | Cart            | Explore random cart operations             | Products available     | Add, remove and update randomly   | Various products   | Cart remains consistent            | P2       |
-| TC-E-003     | Pricing         | Explore pricing after multiple updates     | Multiple items added   | Perform random quantity updates   | Various quantities | Pricing remains accurate           | P1       |
-| TC-E-004     | Navigation      | Explore repeated navigation                | Cart contains products | Navigate between pages repeatedly | Existing cart      | Cart state is preserved            | P2       |
-| TC-E-005     | UI              | Explore responsiveness during cart updates | Products available     | Perform rapid user interactions   | Various actions    | No UI overlap or broken components | P2       |
+**Steps:**
+  1. Preconditions: The catalog page is open with the default product list visible.
+    - expect: Test Data: One available size option such as S, M, or L.
+    - expect: Expected Result: The product list updates to show only products matching the selected size.
+    - expect: Priority: Medium
 
----
+#### 1.4. TC-04 - Add Single Product to Cart
 
-## End-to-End Test Cases
+**File:** `tests/happy-path/tc-04-add-single-product-to-cart.spec.ts`
 
-| Test Case ID | Module        | Test Scenario                          | Preconditions          | Test Steps                                                                                    | Test Data         | Expected Result                                       | Priority |
-| ------------ | ------------- | -------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------- | ----------------- | ----------------------------------------------------- | -------- |
-| TC-E2E-001   | Purchase Flow | Happy path purchase journey            | Application launched   | Browse catalog → Add product → Open cart → Increase quantity → Verify totals → Click Checkout | Valid product     | All cart calculations (subtotal,total,quantity)are accurate and consistent with product catalog prices | P0       |
-| TC-E2E-002   | Purchase Flow | Multi-item cart journey                | Application launched   | Add multiple products → Modify quantities → Remove one item → Verify total → Checkout         | Multiple products | Cart calculations remain accurate throughout          | P0       |
-| TC-E2E-003   | Recovery      | Recovery after interrupted cart update | Simulated interruption | Attempt cart update → Receive error → Retry operation                                         | Product           | Retry succeeds and cart remains consistent            | P1       |
-| TC-E2E-004   | Empty Cart    | Empty cart and re-entry journey        | Empty cart             | Verify empty state → Add item → Remove item → Verify empty state again                        | Single product    | Application correctly handles complete cart lifecycle | P1       |
+**Steps:**
+  1. Preconditions: The catalog page is open and at least one product is available.
+    - expect: Test Data: One visible product with a valid price.
+    - expect: Expected Result: The selected product appears in the cart with quantity 1 and the cart count updates.
+    - expect: Priority: High
 
----
+#### 1.5. TC-05 - Add Multiple Products to Cart
 
-## Traceability Summary
+**File:** `tests/happy-path/tc-05-add-multiple-products-to-cart.spec.ts`
 
-| Requirement Area    | Covered Test Cases       |
-| ------------------- | ------------------------ |
-| Product Listing     | TC-F-001 to TC-F-004     |
-|Cart operations      | TC-F-005 to TC-F-009     |
-| Quantity Management | TC-F-010 to TC-F-012     |
-| Pricing Validation  | TC-F-013 to TC-F-014     |
-| Cart Management     | TC-F-015 to TC-F-018     |
-| Checkout            | TC-F-019 to TC-F-020     |
-| Negative Validation | TC-N-001 to TC-N-010     |
-| Boundary Validation | TC-B-001 to TC-B-010     |
-| Exploratory Testing | TC-E-001 to TC-E-005     |
-| End-to-End Testing  | TC-E2E-001 to TC-E2E-004 |
+**Steps:**
+  1. Preconditions: The catalog page is open and multiple products are available.
+    - expect: Test Data: Two distinct products, for example products priced at $10.90 and $14.90.
+    - expect: Expected Result: Both products appear in the cart as separate items with correct quantities.
+    - expect: Priority: High
 
----
+#### 1.6. TC-06 - Increase Item Quantity
 
-## Test Coverage Summary
+**File:** `tests/happy-path/tc-06-increase-item-quantity.spec.ts`
 
-- Functional Test Cases: 20
-- Negative Test Cases: 10
-- Boundary Test Cases: 10
-- Exploratory Test Cases: 5
-- End-to-End Test Cases:  4
+**Steps:**
+  1. Preconditions: A product is already present in the cart.
+    - expect: Test Data: One cart item with initial quantity 1.
+    - expect: Expected Result: The item quantity increases to 2 and the cart summary reflects the updated quantity.
+    - expect: Priority: High
 
-**Total Test Cases:** **49**
+#### 1.7. TC-07 - Decrease Item Quantity
 
-## AI & MCP Strategy
+**File:** `tests/happy-path/tc-07-decrease-item-quantity.spec.ts`
 
-- AI tools were used to help generate and refine the intial test scenarios
-- The test cases were reviewed and updated manually to match the actual React Shopping cart application
-- Playwright MCP will be used to assit with application analysis,test generation, debugging, and failure analysis during framework development
--Final test cases are aligned with the implemented Playwright automation framework and project requirements.
+**Steps:**
+  1. Preconditions: A product with quantity greater than 1 exists in the cart.
+    - expect: Test Data: One cart item with quantity 2.
+    - expect: Expected Result: The item quantity decreases to 1 and the cart updates accordingly.
+    - expect: Priority: Medium
+
+#### 1.8. TC-08 - Remove Product from Cart
+
+**File:** `tests/happy-path/tc-08-remove-product-from-cart.spec.ts`
+
+**Steps:**
+  1. Preconditions: At least one product is present in the cart.
+    - expect: Test Data: One cart item.
+    - expect: Expected Result: The selected product is removed from the cart and the cart count is updated.
+    - expect: Priority: High
+
+#### 1.9. TC-09 - Single Item Pricing
+
+**File:** `tests/happy-path/tc-09-single-item-pricing.spec.ts`
+
+**Steps:**
+  1. Preconditions: One product is added to the cart.
+    - expect: Test Data: One product with a known unit price, such as $10.90.
+    - expect: Expected Result: The subtotal equals the unit price for a single-item cart.
+    - expect: Priority: High
+
+#### 1.10. TC-10 - Multi Item Pricing
+
+**File:** `tests/happy-path/tc-10-multi-item-pricing.spec.ts`
+
+**Steps:**
+  1. Preconditions: Two products are added to the cart.
+    - expect: Test Data: Two products priced at $10.90 and $14.90.
+    - expect: Expected Result: The subtotal and grand total reflect the combined value of both items correctly.
+    - expect: Priority: High
+
+#### 1.11. TC-11 - Checkout Initiation from Valid Cart
+
+**File:** `tests/happy-path/tc-11-checkout-initiation-from-valid-cart.spec.ts`
+
+**Steps:**
+  1. Preconditions: The cart contains at least one valid product item.
+    - expect: Test Data: One or more valid cart items.
+    - expect: Expected Result: Checkout begins successfully and the user is taken to the next checkout step.
+    - expect: Priority: High
+
+#### 1.12. TC-12 - Continue Shopping from Cart
+
+**File:** `tests/happy-path/tc-12-continue-shopping-from-cart.spec.ts`
+
+**Steps:**
+  1. Preconditions: The cart is open and contains at least one item.
+    - expect: Test Data: Existing cart with one or more items.
+    - expect: Expected Result: The user returns to the catalog and can continue browsing without losing the catalog view.
+    - expect: Priority: Medium

@@ -276,7 +276,7 @@ AI-assisted activities included:
 * Application analysis.
 * Test plan preparation.
 * Test case generation.
-* AI assisted framework designand implementation guidance.
+* AI assisted framework design and implementation guidance.
 * Framework guidance.
 
 All framework implementation, automation logic, validations, and final deliverables were reviewed and aligned with the project requirements.
@@ -309,6 +309,6 @@ The following enhancements are identified as future improvements and are **not p
 * Add support for multiple execution environments.
 * Explore integration with Playwright MCP capabilities.
 * Evaluate AI agent integration to assist with future automation workflows and framework enhancements.
-* Integrate GitHub Actions for auatomated build,execution, and report publishing.
+* Integrate GitHub Actions for automated build,execution, and report publishing.
 
 These enhancements can further improve the scalability, maintainability, and automation capabilities of the framework as the project evolves.
